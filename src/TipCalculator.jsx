@@ -9,8 +9,8 @@ function TipCalculator() {
   const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
-    {
-      if (billValue > 0 && numOfPeople > 0 && percentValue > 0) {
+    if (billValue > 0 && numOfPeople > 0) {
+      if (percentValue > 0) {
         setTipAmount(
           (parseInt(billValue) / parseInt(numOfPeople)) * (percentValue / 100)
         );
@@ -18,11 +18,17 @@ function TipCalculator() {
           parseInt(billValue) / parseInt(numOfPeople) +
             (parseInt(billValue) / parseInt(numOfPeople)) * (percentValue / 100)
         );
-      } else {
-        return;
+      } else if (customInput > 0) {
+        setTipAmount(
+          (parseInt(billValue) / parseInt(numOfPeople)) * (customInput / 100)
+        );
+        setTotalAmount(
+          parseInt(billValue) / parseInt(numOfPeople) +
+            (parseInt(billValue) / parseInt(numOfPeople)) * (customInput / 100)
+        );
       }
     }
-  }, [billValue, numOfPeople, percentValue]);
+  }, [billValue, numOfPeople, percentValue, customInput]);
   function handleCustom() {
     if (billValue > 0 && numOfPeople > 0 && customInput > 0) {
       setTipAmount(
