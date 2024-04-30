@@ -5,27 +5,19 @@ function TipCalculator() {
   const [numOfPeople, setNumOfPeople] = useState(0);
   const [percentValue, setPercentValue] = useState(0);
   const [customInput, setCustomInput] = useState(0);
-  const [tipAmount, setTipAmount] = useState(`$0.00`);
-  const [totalAmount, setTotalAmount] = useState("$0.00");
-  let tipAmountValue;
-  let totalTipAmount;
+  const [tipAmount, setTipAmount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const { tipValue, setTipValue } = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
+
   function calculateTipAmount() {
-    if (
-      (isNaN(numOfPeople) ||
-        isNaN(billValue) ||
-        isNaN(percentValue) ||
-        billValue === 0 ||
-        numOfPeople == 0,
-      percentValue == 0)
-    ) {
+    if (billValue === 0 || numOfPeople === 0) {
       return;
     }
-    tipAmountValue =
-      (parseInt(billValue) / parseInt(numOfPeople)) * (percentValue / 100);
-    setTipAmount(tipAmountValue.toFixed(2).toString());
-    totalTipAmount =
-      parseInt(billValue) / parseInt(numOfPeople) + tipAmountValue;
-    setTotalAmount(totalTipAmount.toFixed(2).toString());
+
+    setTipAmount(
+      (parseInt(billValue) / parseInt(numOfPeople)) * (percentValue / 100)
+    );
   }
 
   function calculateWithCustom() {
@@ -35,16 +27,18 @@ function TipCalculator() {
         isNaN(percentValue) ||
         billValue === 0 ||
         numOfPeople == 0,
-      percentValue == 0)
+      percentValue == 0) ||
+      customInput === 0
     ) {
       return;
     }
-    tipAmountValue =
-      (parseInt(billValue) / parseInt(numOfPeople)) * (customInput / 100);
-    setTipAmount(tipAmountValue.toFixed(2).toString());
-    totalTipAmount =
-      parseInt(billValue) / parseInt(numOfPeople) + tipAmountValue;
-    setTotalAmount(totalTipAmount.toFixed(2).toString());
+
+    // tipAmountValue =
+    //   (parseInt(billValue) / parseInt(numOfPeople)) * (customInput / 100);
+    // setTipAmount(tipAmountValue.toFixed(2).toString());
+    // totalTipAmount =
+    //   parseInt(billValue) / parseInt(numOfPeople) + tipAmountValue;
+    // setTotalAmount(totalTipAmount.toFixed(2).toString());
   }
   return (
     <div classNameName="main-div">
@@ -82,9 +76,9 @@ function TipCalculator() {
                   placeholder="0"
                   id="bill-money"
                   onChange={(e) => {
-                    setBillValue(e.target.value);
+                    e.preventDefault();
                     calculateTipAmount();
-                    calculateWithCustom();
+                    setBillValue(e.target.value);
                   }}
                 />
               </div>
@@ -93,16 +87,25 @@ function TipCalculator() {
               <span className="select-tip">Select Tip %</span>
               <div className="boxes">
                 <button
-                  className="percent-box percentage"
-                  onClick={() => {
+                  className={
+                    percentValue === 5
+                      ? "percent-box active-percent"
+                      : "percent-box"
+                  }
+                  onClick={(e) => {
                     setPercentValue(5);
+
                     calculateTipAmount();
                   }}
                 >
                   5%
                 </button>
                 <button
-                  className="percent-box percentage"
+                  className={
+                    percentValue === 10
+                      ? "percent-box active-percent"
+                      : "percent-box"
+                  }
                   onClick={() => {
                     setPercentValue(10);
                     calculateTipAmount();
@@ -112,7 +115,11 @@ function TipCalculator() {
                 </button>
 
                 <button
-                  className="percent-box percentage"
+                  className={
+                    percentValue === 15
+                      ? "percent-box active-percent"
+                      : "percent-box"
+                  }
                   onClick={() => {
                     setPercentValue(15);
                     calculateTipAmount();
@@ -121,7 +128,11 @@ function TipCalculator() {
                   15%
                 </button>
                 <button
-                  className="percent-box percentage"
+                  className={
+                    percentValue === 25
+                      ? "percent-box active-percent"
+                      : "percent-box"
+                  }
                   onClick={() => {
                     setPercentValue(25);
                     calculateTipAmount();
@@ -130,7 +141,11 @@ function TipCalculator() {
                   25%
                 </button>
                 <button
-                  className="percent-box percentage"
+                  className={
+                    percentValue === 50
+                      ? "percent-box active-percent"
+                      : "percent-box"
+                  }
                   onClick={() => {
                     setPercentValue(50);
                     calculateTipAmount();
@@ -143,6 +158,12 @@ function TipCalculator() {
                     type="number"
                     placeholder="Custom"
                     className="custom-input"
+                    onClick={() => {
+                      const btns = document.querySelectorAll("button");
+                      btns.forEach((item) => {
+                        item.classList.remove("active-percent");
+                      });
+                    }}
                     onChange={(e) => {
                       setCustomInput(e.target.value);
                       calculateWithCustom();
@@ -169,9 +190,8 @@ function TipCalculator() {
                   placeholder="0"
                   className="num-people"
                   onChange={(e) => {
-                    setNumOfPeople(e.target.value);
                     calculateTipAmount();
-                    calculateWithCustom();
+                    setNumOfPeople(e.target.value);
                   }}
                 />
               </div>
@@ -186,7 +206,9 @@ function TipCalculator() {
                   <span>/ person</span>
                 </div>
                 <div className="price">
-                  <span className="total-tip-amount">{tipAmount}</span>
+                  <span className="total-tip-amount">
+                    {`$${tipAmount.toFixed(2).toString()}`}
+                  </span>
                 </div>
               </div>
               <div className="div-amount">
@@ -195,7 +217,9 @@ function TipCalculator() {
                   <span>/ person</span>
                 </div>
                 <div className="price">
-                  <span className="final-total">{totalAmount}</span>
+                  <span className="final-total">
+                    {`$${totalAmount.toFixed(2).toString()}`}
+                  </span>
                 </div>
               </div>
             </div>

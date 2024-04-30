@@ -86,6 +86,9 @@ main {
   justify-content: center;
   border-radius: 5px;
   background: #00474b;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
 
   height: 48px;
 }
@@ -108,11 +111,6 @@ main {
   font-weight: 700;
 }
 
-.percentage {
-  color: #fff;
-  font-size: 24px;
-  font-weight: 700;
-}
 .boxes {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -216,8 +214,6 @@ main {
 }
 .active-percent {
   background: #26c2ae;
-}
-.active-percent span {
   color: #00474b;
 }
 
