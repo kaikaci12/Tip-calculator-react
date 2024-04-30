@@ -103,6 +103,7 @@ function TipCalculator() {
                   }
                   onClick={(e) => {
                     setPercentValue(5);
+                    setCustomInput(0);
                   }}
                 >
                   5%
@@ -115,6 +116,7 @@ function TipCalculator() {
                   }
                   onClick={() => {
                     setPercentValue(10);
+                    setCustomInput(0);
                   }}
                 >
                   10%
@@ -128,6 +130,7 @@ function TipCalculator() {
                   }
                   onClick={() => {
                     setPercentValue(15);
+                    setCustomInput(0);
                   }}
                 >
                   15%
@@ -139,6 +142,7 @@ function TipCalculator() {
                       : "percent-box"
                   }
                   onClick={() => {
+                    setCustomInput(0);
                     setPercentValue(25);
                   }}
                 >
@@ -169,6 +173,7 @@ function TipCalculator() {
                     }}
                     onChange={(e) => {
                       setCustomInput(e.target.value);
+                      setPercentValue(0);
                     }}
                   />
                 </div>
@@ -177,7 +182,7 @@ function TipCalculator() {
             <div className="people">
               <div className="people-check">
                 <span>Number of People</span>
-                {!numOfPeople ? (
+                {numOfPeople === 0 || numOfPeople === "" ? (
                   <span className="numcheck">Can't be zero</span>
                 ) : (
                   <></>
@@ -186,7 +191,7 @@ function TipCalculator() {
 
               <div
                 className={
-                  numOfPeople !== 0
+                  numOfPeople == 0
                     ? "bar numOfPeople people-border"
                     : "bar numOfPeople"
                 }
